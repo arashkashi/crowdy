@@ -1,18 +1,36 @@
 goog.provide('crowdy.DNA');
 
 goog.require('lime.Sprite');
+goog.require('lime.Layer');
+goog.require('crowdy.BindingSite');
 
-crowdy.DNA = function(lenght){
+crowdy.DNA = function(type){
 	lime.Sprite.call(this);
 	
-	// Specie logo
+	if (type == 'human') {
+		this.logoFileName = 'assets/man_logo.png';
+	}
+	if (type == 'mice') {
+		this.logoFileName = 'assets/mouse_logo.png';
+	}
 	
-	// Line
+	this.numberOfBindingSites = 5;
+	this.bindingSites = [];
+	
+	this.layer = new lime.Layer();	
+	
+	// Specie logo
+	var logo = new lime.Sprite().setFill(this.logoFileName).setScale(0.05);
+    this.layer.appendChild(logo);
+	
+	
+	// Line TODO
 	
 	// Binding sites
+	var bs_1 = new crowdy.BindingSite(this.layer, this.numberOfBindingSites);
 	
-	this.circle = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setFill('#c00');
-	this.appendChild(this.circle);
+	
+	this.appendChild(this.layer);
 };
 goog.inherits(crowdy.DNA, lime.Sprite);
 

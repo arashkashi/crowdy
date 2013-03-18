@@ -2,6 +2,7 @@ goog.provide('crowdy.Game');
 
 goog.require('lime.Scene');
 goog.require('crowdy.TF');
+goog.require('crowdy.DNA');
 
 
 crowdy.Game = function(level) {
@@ -9,13 +10,13 @@ crowdy.Game = function(level) {
 	
 	this.score = 150;
 	this.TF_PADDING = 20;
-	this.TF_LEFT_MARGIN = 100;
+	this.TF_LEFT_MARGIN = 200;
 	
 	this.tfs = [];
 	this.initTFs();
 	
-	//this.dnas = []
-	//this.initDNAs();
+	this.dnas = []
+	this.initDNAs();
 	
 	this.layer = new lime.Layer();
     //if(crowdy.isBrokenChrome()) this.layer.setRenderer(lime.Renderer.CANVAS);
@@ -54,11 +55,25 @@ crowdy.Game.prototype.initTFs = function() {
 	this.tfs.push(tf_6);
 	
 	for (var i = 0; i < this.tfs.length; i++){
-		this.tfs[i].setPosition(this.TF_LEFT_MARGIN + i * (this.tfs[i].WIDTH + this.TF_PADDING), 500);
+		this.tfs[i].setPosition(this.TF_LEFT_MARGIN + i * (this.tfs[i].WIDTH + this.TF_PADDING), 700);
 		this.appendChild(this.tfs[i]);
 	}
 	
 	lime.scheduleManager.callAfter(this.updateTFs, this, 100);	
+};
+
+crowdy.Game.prototype.initDNAs = function() {
+		var dna_1 = new crowdy.DNA('human');
+		dna_1.setPosition(50, 250);
+		this.dnas.push(dna_1);
+		
+		this.appendChild(this.dnas[0]);
+		
+		var dna_2 = new crowdy.DNA('mice');
+		dna_2.setPosition(50, 350);
+		this.dnas.push(dna_2);
+		
+		this.appendChild(this.dnas[1]);
 };
 
 crowdy.Game.prototype.updateTFs = function(dt) {
