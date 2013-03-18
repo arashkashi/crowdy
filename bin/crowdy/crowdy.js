@@ -12,7 +12,9 @@ goog.require('lime.animation.Spawn');
 goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.ScaleTo');
 goog.require('lime.animation.MoveTo');
+goog.require('lime.transitions.MoveInUp');
 goog.require('crowdy.Button');
+goog.require('crowdy.Game')
 
 crowdy.WIDTH = 768;
 crowdy.HEIGHT = 1004;
@@ -41,11 +43,26 @@ crowdy.loadMenuScene = function(opt_transition){
 	var contents = new lime.Layer().setPosition(0, 280);
 	layer.appendChild(contents);
 	
-	//var btn_play = new crowdy.Button('PLAY NOW').setPosition(0, 330).setSize(250, 100);
-    //contents.appendChild(btn_play);
-    //goog.events.listen(btn_play, lime.Button.Event.CLICK, function() {
-    //  crowdy.loadGame(1);
-    //});
+	var btn_play = new crowdy.Button('PLAY NOW').setPosition(0, 330).setSize(250, 100);
+    contents.appendChild(btn_play);
+    goog.events.listen(btn_play, lime.Button.Event.CLICK, function() {
+      crowdy.loadGame(1);
+    });
+
+    var btn_tutorial = new crowdy.Button('TUTORIAL').setPosition(0, 480).setSize(250, 100);
+    contents.appendChild(btn_tutorial);
+    goog.events.listen(btn_tutorial, lime.Button.Event.CLICK, function() {
+       crowdy.loadTutorial(1);
+    });
+	
+}
+
+crowdy.loadGame = function(level){
+	crowdy.activeGame = new crowdy.Game(level);
+	crowdy.director.replaceScene(crowdy.activeGame, lime.transitions.MoveInUp);	
+}
+
+crowdy.loadTutorial = function(level) {
 	
 }
 
