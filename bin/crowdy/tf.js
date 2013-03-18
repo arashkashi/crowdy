@@ -2,7 +2,7 @@ goog.provide('crowdy.TF');
 
 goog.require('lime.Sprite');
 
-crowdy.TF = function(_type){
+crowdy.TF = function(_type, potentialBindingSites){
 	lime.Sprite.call(this);
 	
 	this.WIDTH = 50;
@@ -16,8 +16,11 @@ crowdy.TF = function(_type){
 	goog.events.listen(this.circle,['mousedown','touchstart'],function(e){
         e.startDrag();
 		e.swallow(['mouseup', 'touchend'], function (){
-			if (!this.assigned) {
-				
+			for (var i = 0; i < potentialBindingSites.length; i++) {
+				if (goog.math.Vec2.distance(potentialBindingSites[i].getPosition(), this.getPosition()) < 50) {
+					this.assigned = true;
+					this.runAction(new lime.animation.MoveTo(potentialBindingSites[i].getPosition()));			
+				}
 			}
 		});
     });

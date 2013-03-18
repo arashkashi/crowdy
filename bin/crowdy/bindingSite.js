@@ -11,9 +11,15 @@ crowdy.BindingSite = function(dnaLayer, numberOfBindingSites){
 	this.distanceInBetween = 100;
 	this.marginFromLogo = 120;
 	
+	this.bindingSites = []
+	
 	for (var i = 0; i < numberOfBindingSites; i++) {
-		dnaLayer.appendChild(new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setFill('#c40').setPosition(this.marginFromLogo + i*(this.distanceInBetween) , 0));
+		var _bindingSite = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setFill('#c40').setPosition(this.marginFromLogo + i*(this.distanceInBetween) , 0);
+		this.bindingSites.push(_bindingSite);
+		dnaLayer.appendChild(_bindingSite);
 	}
+	
+	return this.bindingSites;
 };
 goog.inherits(crowdy.BindingSite, lime.Sprite);
 

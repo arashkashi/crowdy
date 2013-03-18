@@ -27,7 +27,7 @@ crowdy.DNA = function(type){
 	// Line TODO
 	
 	// Binding sites
-	var bs_1 = new crowdy.BindingSite(this.layer, this.numberOfBindingSites);
+	this.bindingSites = new crowdy.BindingSite(this.layer, this.numberOfBindingSites);
 	
 	
 	this.appendChild(this.layer);

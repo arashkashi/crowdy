@@ -12,11 +12,11 @@ crowdy.Game = function(level) {
 	this.TF_PADDING = 20;
 	this.TF_LEFT_MARGIN = 200;
 	
-	this.tfs = [];
-	this.initTFs();
-	
 	this.dnas = []
 	this.initDNAs();
+
+	this.tfs = [];
+	this.initTFs(this.dnas);
 	
 	this.layer = new lime.Layer();
     //if(crowdy.isBrokenChrome()) this.layer.setRenderer(lime.Renderer.CANVAS);
@@ -33,25 +33,32 @@ crowdy.Game = function(level) {
 };
 goog.inherits(crowdy.Game, lime.Scene);
 
-crowdy.Game.prototype.initTFs = function() {
+crowdy.Game.prototype.initTFs = function(setOfDNAs) {
 	//TODO: a  function call is needed to make a call to server and ask for a set of TFs
 	// currently a set of fictitious TFs are created
-	var tf_1 = new crowdy.TF('A');
+	var setOfBindingSites = [];
+	for (var i = 0; i < setOfDNAs.length; i++) {
+		for (var j = 0; j < setOfDNAs[i].bindingSites.length; j++) { 
+			setOfBindingSites.push(setOfDNAs[i].bindingSites[j]);
+		}
+	}
+	
+	var tf_1 = new crowdy.TF('A', setOfBindingSites);
 	this.tfs.push(tf_1);
 	
-	var tf_2 = new crowdy.TF('A');
+	var tf_2 = new crowdy.TF('A', setOfBindingSites);
 	this.tfs.push(tf_2);
 	
-	var tf_3 = new crowdy.TF('A');
+	var tf_3 = new crowdy.TF('A', setOfBindingSites);
 	this.tfs.push(tf_3);
 	
-	var tf_4 = new crowdy.TF('A');
+	var tf_4 = new crowdy.TF('A', setOfBindingSites);
 	this.tfs.push(tf_4);
 	
-	var tf_5 = new crowdy.TF('A');
+	var tf_5 = new crowdy.TF('A', setOfBindingSites);
 	this.tfs.push(tf_5);
 	
-	var tf_6 = new crowdy.TF('A');
+	var tf_6 = new crowdy.TF('A', setOfBindingSites);
 	this.tfs.push(tf_6);
 	
 	for (var i = 0; i < this.tfs.length; i++){
