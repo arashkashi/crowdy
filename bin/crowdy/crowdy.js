@@ -65,6 +65,10 @@ crowdy.loadTutorial = function(level) {
 	
 }
 
+crowdy.isBrokenChrome = function(){
+   return (/Chrome\/9\.0\.597/).test(goog.userAgent.getUserAgentString());
+}
+
 
 //this is required for outside access after code is compiled in ADVANCED_COMPILATIONS mode
 goog.exportSymbol('crowdy.start', crowdy.start);
