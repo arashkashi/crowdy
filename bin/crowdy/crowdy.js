@@ -53,8 +53,7 @@ crowdy.loadMenuScene = function(opt_transition){
     contents.appendChild(btn_tutorial);
     goog.events.listen(btn_tutorial, lime.Button.Event.CLICK, function() {
        crowdy.loadTutorial(1);
-    });
-	
+    });	
 }
 
 crowdy.loadGame = function(level){
