@@ -23,6 +23,7 @@ crowdy.HEIGHT = 1004;
 crowdy.start = function(){
 	
 	crowdy.director = new lime.Director(document.body, crowdy.WIDTH, crowdy.HEIGHT);
+	crowdy.eventDispatcher = new lime.events.EventDispatcher(crowdy.director);
     crowdy.director.makeMobileWebAppCapable();
 
 	lime.Label.defaultFont = 'Impact';

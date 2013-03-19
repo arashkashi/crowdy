@@ -8,7 +8,7 @@ goog.require('crowdy.DNA');
 crowdy.Game = function(level) {
 	lime.Scene.call(this);
 	
-	this.score = 150;
+	this.score = 0;
 	this.TF_PADDING = 20;
 	this.TF_LEFT_MARGIN = 200;
 	
@@ -22,7 +22,7 @@ crowdy.Game = function(level) {
     //if(crowdy.isBrokenChrome()) this.layer.setRenderer(lime.Renderer.CANVAS);
     this.appendChild(this.layer);
 	
-	this.lblScore = new lime.Label().setText('SCORE: ' + this.score).setPosition(760, 15)
+	this.lblScore = new lime.Label().setText('SCORE: ' + 0).setPosition(760, 15)
         .setAnchorPoint(1, 0)
         .setFontSize(70);
     this.appendChild(this.lblScore);
@@ -30,8 +30,16 @@ crowdy.Game = function(level) {
 	var btn = new crowdy.Button('Back to menu').setSize(270, 70).setPosition(150, 945);
     this.appendChild(btn);
     goog.events.listen(btn, 'click', function() {crowdy.loadMenuScene(lime.transitions.MoveInUp);});
+
 };
 goog.inherits(crowdy.Game, lime.Scene);
+
+crowdy.Game.computeScore = function() {
+	for (var i = 0; i < this.tfs.length; i++)
+	{
+		this.score = this.score + this.tfs[i].tfScore;
+	}
+};
 
 crowdy.Game.prototype.initTFs = function(setOfDNAs) {
 	//TODO: a  function call is needed to make a call to server and ask for a set of TFs
@@ -87,6 +95,7 @@ crowdy.Game.prototype.updateTFs = function(dt) {
 	// TODO: here we update the TF locations.
 	
 };
+
 
 
 

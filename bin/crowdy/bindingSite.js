@@ -15,8 +15,11 @@ crowdy.BindingSite = function(dnaLayer, numberOfBindingSites){
 	
 	for (var i = 0; i < numberOfBindingSites; i++) {
 		var _bindingSite = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setFill('#c40').setPosition(this.marginFromLogo + i*(this.distanceInBetween) , 0);
+		var _bindingLabel = new lime.Label().setText(i).setFontSize(40).setPosition(this.marginFromLogo + i*(this.distanceInBetween) , 0);
 		this.bindingSites.push(_bindingSite);
+		
 		dnaLayer.appendChild(_bindingSite);
+		dnaLayer.appendChild(_bindingLabel);
 	}
 	
 	return this.bindingSites;
