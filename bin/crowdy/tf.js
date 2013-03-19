@@ -27,7 +27,8 @@ crowdy.TF = function(_type, potentialBindingSites){
 				
 				if (potentialBindingSites[i].hitTest(ee)) {
 					isAssigned = true;
-					//crowdy.TF.updateScore(potentialBindingSites[i], this);
+					//this.updateScore(potentialBindingSites[i], this);
+					break;
 					//this.runAction(new lime.animation.MoveTo(ee.screenPosition);			
 				}
 			}
@@ -38,8 +39,8 @@ crowdy.TF = function(_type, potentialBindingSites){
 };
 goog.inherits(crowdy.TF, lime.Sprite);
 
-crowdy.TF.updateScore = function(bindingSite, tf) {
-	crowdy.TF.tfScore = crowdy.TF.tfScore + 10;
-	alert(crowdy.TF.tfScore);
+crowdy.TF.prototype.updateScore = function(bindingSite, tf) {
+	this.tfScore = this.tfScore + 10;
+	alert(this.tfScore);
 };
 
