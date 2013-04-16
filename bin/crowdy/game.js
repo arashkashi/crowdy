@@ -8,21 +8,21 @@ goog.require('crowdy.DNA');
 crowdy.Game = function(level) {
 	lime.Scene.call(this);
 	
+	this.jsonRes;
+	
 	this.score = 0;
 	this.TF_PADDING = 20;
 	this.TF_LEFT_MARGIN = 200;
 	
-	this.dnas = []
+	this.initGame();
+	
+	this.dnas = [];
 	this.initDNAs();
 
 	this.tfs = [];
 	this.initTFs(this.dnas);
 	
-	this.layer = new lime.Layer();
-    //if(crowdy.isBrokenChrome()) this.layer.setRenderer(lime.Renderer.CANVAS);
-    this.appendChild(this.layer);
-	
-	this.lblScore = new lime.Label().setText('SCORE: ' + 0).setPosition(760, 15)
+	this.lblScore = new lime.Label().setText('SCORE: ' + 0).setPosition(1004, 15)
         .setAnchorPoint(1, 0)
         .setFontSize(70);
     this.appendChild(this.lblScore);
@@ -34,12 +34,44 @@ crowdy.Game = function(level) {
 };
 goog.inherits(crowdy.Game, lime.Scene);
 
-crowdy.Game.computeScore = function() {
-	for (var i = 0; i < this.tfs.length; i++)
-	{
-		this.score = this.score + this.tfs[i].tfScore;
+crowdy.Game.prototype.initGame = function() {
+	//"http://132.206.3.230:8080/getagame"
+	json = this.getGameInJson()
+
+	obj = JSON.parse(json)
+	alert(obj['TFs'].length)
+	
+	for (var i=0; i < obj['TFs'].length; i++) {
+		// Create TFs on DNA (to be removed)
+		// Create TFs on side bar (to be added)
+	}
+	
+	for (var i=0; i < obj['numberOfSpecies'].length; i++) {
+		// Create DNAs
+	}
+	
+	// position TFs on the DNA
+};
+
+crowdy.Game.prototype.getGameInJson = function() {
+	var xhr = this.createCORSRequest('GET', "http://0.0.0.0:8080/getgame");
+	var result
+	
+	xhr.onload = function() {
+		alert(xhr.responseText)
+		result = xhr.responseText
+	};
+	
+	try {
+		xhr.send()
+		return result
+	} catch (err)
+	{ 
+		alert ("Cannot connect to the game server")
+		throw new Exception
 	}
 };
+
 
 crowdy.Game.prototype.initTFs = function(setOfDNAs) {
 	//TODO: a  function call is needed to make a call to server and ask for a set of TFs
@@ -94,6 +126,31 @@ crowdy.Game.prototype.initDNAs = function() {
 crowdy.Game.prototype.updateTFs = function(dt) {
 	// TODO: here we update the TF locations.
 	
+};
+
+crowdy.Game.prototype.createCORSRequest = function (method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+
+    // Check if the XMLHttpRequest object has a "withCredentials" property.
+    // "withCredentials" only exists on XMLHTTPRequest2 objects.
+    xhr.open(method, url, false);
+
+  } else if (typeof XDomainRequest != "undefined") {
+
+    // Otherwise, check if XDomainRequest.
+    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+    xhr = new XDomainRequest();
+    xhr.open(method, url, false);
+
+  } else {
+
+    // Otherwise, CORS is not supported by the browser.
+    xhr = null;
+
+  }
+
+  return xhr;
 };
 
 
