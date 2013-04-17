@@ -5,6 +5,10 @@ goog.require('crowdy.TF');
 goog.require('crowdy.DNA');
 
 
+var DNA_PADDING_TOP = 300
+var DNA_PADDING_LEFT = 50
+var GAP_BETWEEN_DNA = 100
+
 crowdy.Game = function(level) {
 	lime.Scene.call(this);
 	
@@ -47,7 +51,7 @@ crowdy.Game.prototype.initGame = function() {
 		this.appendChild(dna)
 	}
 	
-	this.arrangeDNA()
+	this.arrangeDNAs()
 	
 	for (var i=0; i < obj['TFs'].length; i++) {
 		// Create TFs on DNA (to be removed)
@@ -56,17 +60,34 @@ crowdy.Game.prototype.initGame = function() {
 		this.appendChild(tf)
 	}
 	
-	// position TFs on the DNA
+	this.arrangeTFs()
 };
 
-crowdy.Game.prototype.arrangeDNA = function() {
-	var DNA_PADDING_TOP = 300
-	var DNA_PADDING_LEFT = 30
-	var GAP_BETWEEN_DNA = 100
+crowdy.Game.prototype.arrangeDNAs = function() {
+
 	
 	for (var i=0; i<this.DNAs.length; i++) {
 		this.DNAs[i].setPosition(DNA_PADDING_LEFT, DNA_PADDING_TOP + GAP_BETWEEN_DNA * i)
 	}
+};
+
+crowdy.Game.prototype.arrangeTFs = function() {
+	for (var i = 0; i < this.TFs.length; i++) {
+		
+		var tf_x_position = null
+		var tf_y_position = null
+		
+		for (var j = 0; j < this.DNAs.length; j++) {
+			if (this.DNAs[j].name == this.TFs[i].specie) {
+				tf_y_position = this.DNAs[j].getPosition().y + this.DNAs[j].getLinePosition().y
+				tf_x_position = this.TFs[i].locationOnDNA * this.DNAs[0].getSize().width / 100.0 + this.DNAs[j].getLinePosition().x
+				break
+			}
+		}
+
+		this.TFs[i].setPosition(tf_x_position, tf_y_position)
+	}
+	
 };
 
 crowdy.Game.prototype.getGameInJson = function() {
