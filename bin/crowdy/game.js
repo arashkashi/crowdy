@@ -8,21 +8,21 @@ goog.require('crowdy.DNA');
 crowdy.Game = function(level) {
 	lime.Scene.call(this);
 	
-	this.jsonRes;
-	
-	this.score = 0;
 	this.TF_PADDING = 20;
 	this.TF_LEFT_MARGIN = 200;
 	
+    this.TFs = [];
+	this.DNAs = [];
+	
 	this.initGame();
 	
-	this.dnas = [];
-	this.initDNAs();
 
-	this.tfs = [];
-	this.initTFs(this.dnas);
+	// this.initDNAs();
+
+
+	// this.initTFs(this.dnas);
 	
-	this.lblScore = new lime.Label().setText('SCORE: ' + 0).setPosition(1004, 15)
+	this.lblScore = new lime.Label().setText('SCORE: ' + 0).setPosition(700, 15)
         .setAnchorPoint(1, 0)
         .setFontSize(70);
     this.appendChild(this.lblScore);
@@ -39,18 +39,34 @@ crowdy.Game.prototype.initGame = function() {
 	json = this.getGameInJson()
 
 	obj = JSON.parse(json)
-	alert(obj['TFs'].length)
+	
+	for (var i=0; i < obj['species'].length; i++) {
+		// Create DNAs
+		var dna = new crowdy.DNA(obj['species'][i])
+		this.DNAs.push(dna)
+		this.appendChild(dna)
+	}
+	
+	this.arrangeDNA()
 	
 	for (var i=0; i < obj['TFs'].length; i++) {
 		// Create TFs on DNA (to be removed)
-		// Create TFs on side bar (to be added)
-	}
-	
-	for (var i=0; i < obj['numberOfSpecies'].length; i++) {
-		// Create DNAs
+		var tf = new crowdy.TF(obj['TFs'][i]['name'], obj['TFs'][i]['location'], obj['TFs'][i]['specie'])
+		this.TFs.push(tf)
+		this.appendChild(tf)
 	}
 	
 	// position TFs on the DNA
+};
+
+crowdy.Game.prototype.arrangeDNA = function() {
+	var DNA_PADDING_TOP = 300
+	var DNA_PADDING_LEFT = 30
+	var GAP_BETWEEN_DNA = 100
+	
+	for (var i=0; i<this.DNAs.length; i++) {
+		this.DNAs[i].setPosition(DNA_PADDING_LEFT, DNA_PADDING_TOP + GAP_BETWEEN_DNA * i)
+	}
 };
 
 crowdy.Game.prototype.getGameInJson = function() {
@@ -58,7 +74,6 @@ crowdy.Game.prototype.getGameInJson = function() {
 	var result
 	
 	xhr.onload = function() {
-		alert(xhr.responseText)
 		result = xhr.responseText
 	};
 	

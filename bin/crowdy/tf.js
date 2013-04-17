@@ -6,7 +6,6 @@ crowdy.TF = function(_type, potentialBindingSites){
 	lime.Sprite.call(this);
 	
 	this.assignedBindingSite = null;
-	this.tfScore = 0;
 	
 	this.mouseDownPosition = null;
 	

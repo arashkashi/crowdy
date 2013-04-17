@@ -16,7 +16,7 @@ goog.require('lime.transitions.MoveInUp');
 goog.require('crowdy.Button');
 goog.require('crowdy.Game')
 
-crowdy.WIDTH = 768;
+crowdy.WIDTH = 1200;
 crowdy.HEIGHT = 1004;
 
 // entrypoint
@@ -28,7 +28,9 @@ crowdy.start = function(){
 
 	lime.Label.defaultFont = 'Impact';
     lime.Label.installFont('Impact', 'assets/impact.ttf');
-    crowdy.loadMenuScene();
+	
+	crowdy.loadGame(1);
+    //crowdy.loadMenuScene();
 }
 
 crowdy.loadMenuScene = function(opt_transition){
