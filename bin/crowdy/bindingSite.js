@@ -2,27 +2,22 @@ goog.provide('crowdy.BindingSite');
 
 goog.require('lime.Sprite');
 
-crowdy.BindingSite = function(dnaLayer, numberOfBindingSites){
+crowdy.BindingSite = function(_specie, _location){
+	// Location: A number between 0 - 100
+	// Scpecie: e.g. 'human' or 'mice'
 	lime.Sprite.call(this);
 	
-	this.WIDTH = 35;
-	this.HEIGHT = 35;
+	this.WIDTH = 10;
+	this.HEIGHT = 10;
 	
-	this.distanceInBetween = 100;
-	this.marginFromLogo = 120;
+	this.specieName = _specie;
+	this.location = _location;
 	
-	this.bindingSites = []
+	this.circle = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setAnchorPoint(0,0)
+	circle.setFill('#c00').setPosition(0, 0)
 	
-	for (var i = 0; i < numberOfBindingSites; i++) {
-		var _bindingSite = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setFill('#c40').setPosition(this.marginFromLogo + i*(this.distanceInBetween) , 0);
-		var _bindingLabel = new lime.Label().setText(i).setFontSize(40).setPosition(this.marginFromLogo + i*(this.distanceInBetween) , 0);
-		this.bindingSites.push(_bindingSite);
-		
-		dnaLayer.appendChild(_bindingSite);
-		dnaLayer.appendChild(_bindingLabel);
-	}
-	
-	return this.bindingSites;
+	this.layer = new lime.Layer();
+	this.layer.appendChild(this.circle)
 };
 goog.inherits(crowdy.BindingSite, lime.Sprite);
 

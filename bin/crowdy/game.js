@@ -56,7 +56,6 @@ crowdy.Game.prototype.initGame = function() {
 	obj = JSON.parse(json)
 	
 	for (var i=0; i < obj['species'].length; i++) {
-		// Create DNAs
 		var dna = new crowdy.DNA(obj['species'][i])
 		this.DNAs.push(dna)
 		this.appendChild(dna)
@@ -80,9 +79,7 @@ crowdy.Game.prototype.initGame = function() {
 	this.arrangeTFs()
 };
 
-crowdy.Game.prototype.arrangeDNAs = function() {
-
-	
+crowdy.Game.prototype.arrangeDNAs = function() {	
 	for (var i=0; i<this.DNAs.length; i++) {
 		this.DNAs[i].setPosition(DNA_PADDING_LEFT, DNA_PADDING_TOP + GAP_BETWEEN_DNA * i)
 	}
@@ -106,7 +103,6 @@ crowdy.Game.prototype.arrangeTFs = function() {
 };
 
 crowdy.Game.prototype.onTFPositionUpdate = function(event, obj) {
-	alert(obj.name)
 };
 
 crowdy.Game.prototype.getGameInJson = function() {
