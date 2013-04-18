@@ -2,44 +2,44 @@ goog.provide('crowdy.TF');
 
 goog.require('lime.Sprite');
 
-crowdy.TF = function(_type, potentialBindingSites){
+crowdy.TF = function(_TF_name, _locationOnDNA, _specieName){
 	lime.Sprite.call(this);
 	
-	this.assignedBindingSite = null;
-	
-	this.mouseDownPosition = null;
+	this.name = _TF_name
+	this.locationOnDNA = _locationOnDNA;
+	this.specie = _specieName;
 	
 	this.WIDTH = 50;
 	this.HEIGHT = 50;
-	this.circle = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setFill('#c00');
-	this.appendChild(this.circle);
 	
-	goog.events.listen(this.circle,['mousedown','touchstart'],function(e){
-		if (this.mouseDownPosition == null)
-		{
-			this.mouseDownPosition = this.getPosition();
-		}
-        e.startDrag();
-		var isAssigned = false;
+	this.circle = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setFill(crowdy.TF.getTFColor(this.name));
+	
+	this.layer = new lime.Layer();
+	this.layer.appendChild(this.circle);
+	this.appendChild(this.layer);
+	
+	goog.events.listen(this.layer,['mousedown','touchstart'],function(e){
+		var instance = this
+
+		e.startDrag();
 		e.swallow(['mouseup', 'touchend'], function (ee){
-			for (var i = 0; i < potentialBindingSites.length; i++) {
-				
-				if (potentialBindingSites[i].hitTest(ee)) {
-					isAssigned = true;
-					//this.updateScore(potentialBindingSites[i], this);
-					break;
-					//this.runAction(new lime.animation.MoveTo(ee.screenPosition);			
-				}
-			}
-			if (!isAssigned)
-				this.runAction(new lime.animation.MoveTo(this.mouseDownPosition));
+			crowdy.TF.prototype.onDragMouseup(ee, instance)
 		});
-    });
+	}, true, this);
 };
 goog.inherits(crowdy.TF, lime.Sprite);
 
-crowdy.TF.prototype.updateScore = function(bindingSite, tf) {
-	this.tfScore = this.tfScore + 10;
-	alert(this.tfScore);
+crowdy.TF.getTFColor = function(name) {
+	if (name == 'TF1') {
+		return '#c00'
+	}
+	else
+	{
+		return '#f66'
+	}
+};
+
+crowdy.TF.prototype.onDragMouseup = function(event, obj) {
+	crowdy.Game.prototype.onTFPositionUpdate(event, obj)
 };
 
