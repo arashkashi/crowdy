@@ -29,16 +29,17 @@ crowdy.DNA = function(specieName){
 		// var circle = new lime.Circle().setSize(10, 10).setAnchorPoint(0,0)
 		// circle.setFill('#c00').setPosition(110 + i * this.WIDTH / 100, this.LINE_TOP_PADDING)
 		var bindingSite = new crowdy.BindingSite(this.name, i)
-		this.bindingSites.push(circle)
-		this.layer.appendChild(circle)
-		goog.events.listen(this.bindingSites[i],['mouseover'],function(e){
-			alert('mouseover')
-			// 
-			// e.startDrag();
-			// e.swallow(['mouseup', 'touchend'], function (ee){
-			// 	crowdy.TF.prototype.onDragMouseup(ee, instance)
-			// });
-		}, true, this.bindingSites[i]);
+		bindingSite.setPosition(110 + i * this.WIDTH / 100, this.LINE_TOP_PADDING)
+		this.bindingSites.push(bindingSite)
+		this.layer.appendChild(bindingSite)
+		// goog.events.listen(this.bindingSites[i],['mouseover'],function(e){
+		// 	alert('mouseover')
+		// 	// 
+		// 	// e.startDrag();
+		// 	// e.swallow(['mouseup', 'touchend'], function (ee){
+		// 	// 	crowdy.TF.prototype.onDragMouseup(ee, instance)
+		// 	// });
+		// }, true, this.bindingSites[i]);
 	}
 	
 	this.appendChild(this.layer);

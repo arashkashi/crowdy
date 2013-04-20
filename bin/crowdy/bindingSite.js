@@ -14,10 +14,11 @@ crowdy.BindingSite = function(_specie, _location){
 	this.location = _location;
 	
 	this.circle = new lime.Circle().setSize(this.WIDTH, this.HEIGHT).setAnchorPoint(0,0)
-	circle.setFill('#c00').setPosition(0, 0)
+	this.circle.setFill('#c00').setPosition(0, 0)
 	
 	this.layer = new lime.Layer();
 	this.layer.appendChild(this.circle)
+	this.appendChild(this.layer)
 };
 goog.inherits(crowdy.BindingSite, lime.Sprite);
 
