@@ -7,8 +7,8 @@ crowdy.BindingSite = function(_specie, _location){
 	// Scpecie: e.g. 'human' or 'mice'
 	lime.Sprite.call(this);
 	
-	this.WIDTH = 10;
-	this.HEIGHT = 29;
+	this.WIDTH = 15;
+	this.HEIGHT = 39;
 	
 	var isHighlighted = false;
 	

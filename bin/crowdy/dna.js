@@ -44,14 +44,19 @@ crowdy.DNA.prototype.getLinePosition = function() {
 };
 
 crowdy.DNA.prototype.highlightBindingSite = function(locationIndex) {
-	for (var i=0;i<this.highlightedSiteIndexes.length;i++) {
-		if (this.highlightedSiteIndexes[i] == locationIndex) {
-			this.dehighlightBindingSites(locationIndex)
-			return
-		}
+	if (this.highlightedSiteIndexes.indexOf(locationIndex) != -1) {
+		return 
 	}
+	
+	// de-highligh all others
+	for (var i=0;i<this.highlightedSiteIndexes.length; i++) {
+		this.dehighlightBindingSites(this.highlightedSiteIndexes[i]);
+	}
+	
+	// High light the new one
 	this.highlightedSiteIndexes.push(locationIndex);
-	this.bindingSites[locationIndex].setHighlight();
+	this.bindingSites[locationIndex].setHighlight();	
+	
 };
 
 crowdy.DNA.prototype.dehighlightBindingSites = function(locationIndex) {
