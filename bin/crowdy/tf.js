@@ -23,8 +23,12 @@ crowdy.TF = function(_TF_name, _locationOnDNA, _specieName){
 		
 		e.startDrag();
 		
-		e.swallow('mousemove', function(e) {
-			crowdy.Game.onTFMove(e, instance);
+		e.swallow('mousemove', function(ee) {
+			crowdy.Game.onTFMove(ee, instance);	
+		});
+		
+		e.swallow('mouseup', function(eee) {
+			crowdy.Game.onTFRepositioned(eee, instance);
 		});
 	}, true, this);
 };

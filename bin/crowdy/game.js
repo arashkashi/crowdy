@@ -56,6 +56,33 @@ crowdy.Game.run = function(obj) {
 
 };
 
+crowdy.Game.onTFRepositioned = function(event, obj) {
+	for (var i=0; i<gameInstance.DNAs.length; i++) {
+		for (var j=0; j<gameInstance.DNAs[i].bindingSites.length; j++) {
+			if (gameInstance.DNAs[i].bindingSites[j].circle.hitTest(event)) {
+				
+				// obj.setPosition(new goog.math.Coordinate(50,50))
+				obj.runAction(new lime.animation.MoveTo(gameInstance.DNAs[i].bindingSites[j].getPosition()));
+				alert(obj.getPosition())
+				// obj.setPosition(50,50);
+				// for (var k=0; k < gameInstance.TFs.length; k++) {
+				// 	if (gameInstance.TFs[k].name == obj.name) {
+				// 		if (gameInstance.TFs[k].locationOnDNA == obj.locationOnDNA) {
+				// 			if (gameInstance.TFs[k].specie == obj.specie) {
+				// 				gameInstance.TFs[k].setPosition(50, 50);
+				// 				alert(k)
+				// 				break;
+				// 			}
+				// 		}
+				// 	}	
+				// }
+				// alert( obj.getPosition() );			
+				
+			}	
+		}
+	}
+};
+
 crowdy.Game.onTFMove = function(event, obj){
 	// Hit test: if TF is moved to the garbage
 	if (gameInstance.trashLogo.hitTest(event))
@@ -122,7 +149,11 @@ crowdy.Game.prototype.arrangeTFs = function() {
 		for (var j = 0; j < this.DNAs.length; j++) {
 			if (this.DNAs[j].name == this.TFs[i].specie) {
 				tf_y_position = this.DNAs[j].getPosition().y + this.DNAs[j].getLinePosition().y
-				tf_x_position = this.TFs[i].locationOnDNA * this.DNAs[0].getSize().width / 100.0 + this.DNAs[j].getLinePosition().x
+				tf_x_position = this.TFs[i].locationOnDNA * this.DNAs[j].getSize().width / this.DNAs[j].NUMBER_OF_BINDING_SITE_IN_DNA + this.DNAs[j].getLinePosition().x
+				var x_offset = 10;
+				var y_offset = -2;
+				tf_x_position -= x_offset;
+				tf_y_position -= y_offset;
 				break
 			}
 		}

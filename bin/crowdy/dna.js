@@ -9,7 +9,7 @@ crowdy.DNA = function(specieName){
 	
 	this.WIDTH = 1000
 	this.HEIGHT = 50
-	this.NUMBER_OF_BINDING_SITE_IN_DNA = 10
+	this.NUMBER_OF_BINDING_SITE_IN_DNA = 20
 	
 	this.LINE_LEFT_PADDING = 100
 	this.LINE_TOP_PADDING = 10
