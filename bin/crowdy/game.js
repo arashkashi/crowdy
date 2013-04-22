@@ -57,22 +57,24 @@ crowdy.Game.run = function(obj) {
 };
 
 crowdy.Game.onTFMove = function(event, obj){
-	// Hit test for the garbage bin
+	// Hit test: if TF is moved to the garbage
 	if (gameInstance.trashLogo.hitTest(event))
 	{
 		alert('hit garbage');
 	}
 	
-	// Hit Test for binding site
+	// Hit Test: if TF hasmoved and hit a binding site
     for (var i=0; i<gameInstance.DNAs.length; i++) {
 		for (var j=0; j<gameInstance.DNAs[i].bindingSites.length; j++) {
-			if (gameInstance.DNAs[i].bindingSites[j].hitTest(event)) {
-				alert('hit binding site' + gameInstance.DNAs[i].bindingSites[j].location )
-			}
-			
+			if (gameInstance.DNAs[i].bindingSites[j].circle.hitTest(event)) {
+				crowdy.Game.onTFMovedOverBindingSite(gameInstance.DNAs[i], j, obj)
+			}	
 		}
-	}
-	
+	}	
+};
+
+crowdy.Game.onTFMovedOverBindingSite = function(dna, bindingSiteIndex, tf) {
+	dna.highlightBindingSite(bindingSiteIndex);	
 };
 
 crowdy.Game.prototype.initGame = function() {

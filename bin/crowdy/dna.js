@@ -9,12 +9,13 @@ crowdy.DNA = function(specieName){
 	
 	this.WIDTH = 1000
 	this.HEIGHT = 50
-	this.NUMBER_OF_BINDING_SITE_IN_DNA = 4
+	this.NUMBER_OF_BINDING_SITE_IN_DNA = 10
 	
 	this.LINE_LEFT_PADDING = 100
 	this.LINE_TOP_PADDING = 10
 	
 	this.bindingSites = []
+	this.highlightedSiteIndexes = []
 	
 	this.name = specieName
 	
@@ -42,24 +43,24 @@ crowdy.DNA.prototype.getLinePosition = function() {
 	return new goog.math.Vec2(170,15)
 };
 
-crowdy.DNA.onBindingSiteMouseover = function(event, bindingSite) {
-	if (typeof this.lastHighlightedBindingSite != "undefined") {
-		// If hover over the same BS, return
-		if (bindingSite.specieName == this.lastHighlightedBindingSite.specieName) {
-			if (bindingSite.location == this.lastHighlightedBindingSite.location) {
-				return
-			}
-		}	
-	} else {
-		this.lastHighlightedBindingSite = bindingSite
-		bindingSite.setHighlight();
-		return
+crowdy.DNA.prototype.highlightBindingSite = function(locationIndex) {
+	for (var i=0;i<this.highlightedSiteIndexes.length;i++) {
+		if (this.highlightedSiteIndexes[i] == locationIndex) {
+			this.dehighlightBindingSites(locationIndex)
+			return
+		}
 	}
-	
-	bindingSite.setHighlight();
-	this.lastHighlightedBindingSite.setDeHighlight();
-	
-	this.lastHighlightedBindingSite = bindingSite
+	this.highlightedSiteIndexes.push(locationIndex);
+	this.bindingSites[locationIndex].setHighlight();
 };
 
+crowdy.DNA.prototype.dehighlightBindingSites = function(locationIndex) {
+	if (this.highlightedSiteIndexes.indexOf(locationIndex) == -1) {
+		return
+	} else {
+		this.bindingSites[locationIndex].setDeHighlight();
+		var _index = this.highlightedSiteIndexes.indexOf(locationIndex);
+		this.highlightedSiteIndexes.splice(_index, 1);
+	}
+};
 

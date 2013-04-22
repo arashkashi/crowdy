@@ -7,7 +7,7 @@ crowdy.BindingSite = function(_specie, _location){
 	// Scpecie: e.g. 'human' or 'mice'
 	lime.Sprite.call(this);
 	
-	this.WIDTH = 3;
+	this.WIDTH = 10;
 	this.HEIGHT = 29;
 	
 	var isHighlighted = false;
@@ -23,7 +23,6 @@ crowdy.BindingSite = function(_specie, _location){
 	this.appendChild(this.layer)
 	
 	goog.events.listen(this.circle,['mouseover'],function(e){
-		crowdy.DNA.onBindingSiteMouseover(e, this);
 	}, true, this);
 	
 };
