@@ -20,11 +20,12 @@ crowdy.TF = function(_TF_name, _locationOnDNA, _specieName){
 	
 	goog.events.listen(this.layer,['mousedown','touchstart'],function(e){
 		var instance = this
-		// 
-		// e.startDrag();
-		// e.swallow(['mouseup', 'touchend'], function (ee){
-		// 	crowdy.TF.prototype.onDragMouseup(ee, instance)
-		// });
+		
+		e.startDrag();
+		
+		e.swallow('mousemove', function(e) {
+			crowdy.Game.onTFMove(e, instance);
+		});
 	}, true, this);
 };
 goog.inherits(crowdy.TF, lime.Sprite);

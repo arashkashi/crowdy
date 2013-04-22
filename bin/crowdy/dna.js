@@ -9,6 +9,7 @@ crowdy.DNA = function(specieName){
 	
 	this.WIDTH = 1000
 	this.HEIGHT = 50
+	this.NUMBER_OF_BINDING_SITE_IN_DNA = 4
 	
 	this.LINE_LEFT_PADDING = 100
 	this.LINE_TOP_PADDING = 10
@@ -25,33 +26,40 @@ crowdy.DNA = function(specieName){
 	this.layer.appendChild(label);
 	this.layer.appendChild(line);
 	
-	for (var i=0;i<100; i++){
-		// var circle = new lime.Circle().setSize(10, 10).setAnchorPoint(0,0)
-		// circle.setFill('#c00').setPosition(110 + i * this.WIDTH / 100, this.LINE_TOP_PADDING)
+	for (var i=0;i<this.NUMBER_OF_BINDING_SITE_IN_DNA; i++){
 		var bindingSite = new crowdy.BindingSite(this.name, i)
-		bindingSite.setPosition(110 + i * this.WIDTH / 100, this.LINE_TOP_PADDING)
+		bindingSite.setPosition(110 + i * this.WIDTH / this.NUMBER_OF_BINDING_SITE_IN_DNA, this.LINE_TOP_PADDING)
 		this.bindingSites.push(bindingSite)
 		this.layer.appendChild(bindingSite)
-		// goog.events.listen(this.bindingSites[i],['mouseover'],function(e){
-		// 	alert('mouseover')
-		// 	// 
-		// 	// e.startDrag();
-		// 	// e.swallow(['mouseup', 'touchend'], function (ee){
-		// 	// 	crowdy.TF.prototype.onDragMouseup(ee, instance)
-		// 	// });
-		// }, true, this.bindingSites[i]);
 	}
 	
 	this.appendChild(this.layer);
-	
-	goog.events.listen(line,['mousedown','touchstart'],function(e){
-	});
 	
 };
 goog.inherits(crowdy.DNA, lime.Sprite);
 
 crowdy.DNA.prototype.getLinePosition = function() {
 	return new goog.math.Vec2(170,15)
+};
+
+crowdy.DNA.onBindingSiteMouseover = function(event, bindingSite) {
+	if (typeof this.lastHighlightedBindingSite != "undefined") {
+		// If hover over the same BS, return
+		if (bindingSite.specieName == this.lastHighlightedBindingSite.specieName) {
+			if (bindingSite.location == this.lastHighlightedBindingSite.location) {
+				return
+			}
+		}	
+	} else {
+		this.lastHighlightedBindingSite = bindingSite
+		bindingSite.setHighlight();
+		return
+	}
+	
+	bindingSite.setHighlight();
+	this.lastHighlightedBindingSite.setDeHighlight();
+	
+	this.lastHighlightedBindingSite = bindingSite
 };
 
 

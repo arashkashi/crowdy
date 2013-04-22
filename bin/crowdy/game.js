@@ -9,8 +9,12 @@ var DNA_PADDING_TOP = 300
 var DNA_PADDING_LEFT = 50
 var GAP_BETWEEN_DNA = 100
 
+var gameInstance = null
+
 crowdy.Game = function(level) {
 	lime.Scene.call(this);
+	
+	gameInstance = this
 	
 	this.TF_PADDING = 20;
 	this.TF_LEFT_MARGIN = 200;
@@ -20,11 +24,11 @@ crowdy.Game = function(level) {
 	
 	this.initGame();
 	
-	// lime.scheduleManager.schedule(function(dt){
-	// 	lime.Director.FPS_INTERVAL = 100
-	// 	crowdy.Game.run(this);
-	// 
-	// }, this);
+	lime.scheduleManager.schedule(function(dt){
+		lime.Director.FPS_INTERVAL = 500
+		crowdy.Game.run(this);
+	
+	}, this);
 	
 	// Trash Logo
 	this.trashLogo = new lime.Sprite().setFill('assets/trash.png').setScale(0.2).setPosition(500,700).setAnchorPoint(0,0);
@@ -44,10 +48,32 @@ crowdy.Game = function(level) {
 };
 goog.inherits(crowdy.Game, lime.Scene);
 
-// crowdy.Game.run = function(obj) {
-// 	alert(obj.TF_PADDING)
-// 	
-// };
+crowdy.Game.run = function(obj) {	
+
+	// for (var j=0; j < obj.TFs.length; j++)  {
+	// 	alert(obj.TFs[j].getPosition)
+	// }
+
+};
+
+crowdy.Game.onTFMove = function(event, obj){
+	// Hit test for the garbage bin
+	if (gameInstance.trashLogo.hitTest(event))
+	{
+		alert('hit garbage');
+	}
+	
+	// Hit Test for binding site
+    for (var i=0; i<gameInstance.DNAs.length; i++) {
+		for (var j=0; j<gameInstance.DNAs[i].bindingSites.length; j++) {
+			if (gameInstance.DNAs[i].bindingSites[j].hitTest(event)) {
+				alert('hit binding site' + gameInstance.DNAs[i].bindingSites[j].location )
+			}
+			
+		}
+	}
+	
+};
 
 crowdy.Game.prototype.initGame = function() {
 	//"http://132.206.3.230:8080/getagame"
