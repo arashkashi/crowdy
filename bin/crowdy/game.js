@@ -44,7 +44,7 @@ crowdy.Game = function(level) {
 
 	lime.scheduleManager.schedule(function(dt){
 		lime.Director.FPS_INTERVAL = 100;
-		gameInstance.updateScoreNumber(this);
+		gameInstance.updateScoreNumber(this, dt);
 	},this.lblScore);
 
 };
@@ -59,8 +59,8 @@ crowdy.Game.prototype.getScore = function(action, TF, dest_dna, dest_location) {
 	return 50;
 };
 
-crowdy.Game.prototype.updateScoreNumber = function(label) {
-	if (gameInstance.displayedScore < gameInstance.score) {
+crowdy.Game.prototype.updateScoreNumber = function(label, dt) {
+	if (gameInstance.displayedScore <= gameInstance.score) {
 		gameInstance.displayedScore += 1
 	}
 	gameInstance.lblScore.setText('SCORE: ' + gameInstance.displayedScore.toString())
