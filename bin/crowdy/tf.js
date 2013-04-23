@@ -23,7 +23,7 @@ crowdy.TF = function(_TF_name, _locationOnDNA, _specieName){
 	goog.events.listen(this.layer,['mousedown','touchstart'],function(e){
 		var instance = this
 		var event = e
-		var initialScreenPosition = e.screenPosition
+		var initialScreenPosition = this.layer.localToScreen(new goog.math.Coordinate(0, 0))
 		
 		this.prevPosition = e.screenPosition;
 		

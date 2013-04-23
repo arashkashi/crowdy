@@ -46,19 +46,19 @@ crowdy.Game.onTFRepositioned = function(event, obj, initialScreenPosition) {
 	for (var i=0; i<gameInstance.DNAs.length; i++) {
 		for (var j=0; j<gameInstance.DNAs[i].bindingSites.length; j++) {
 			if (gameInstance.DNAs[i].bindingSites[j].circle.hitTest(event)) {
-				// obj.locationOnDNA = 2;
-				// 				gameInstance.arrangeDNAs();
-				// 				gameInstance.arrangeTFs();
-				// var temp = new lime.Circle().setSize(25, 25).setFill('#c00').setPosition(gameInstance.DNAs[i].bindingSites[j].getPosition());
-				// gameInstance.appendChild(temp);
-				// obj.runAction(new lime.animation.MoveTo(gameInstance.DNAs[i].getParent().localToScreen(gameInstance.DNAs[i].bindingSites[j].getPosition())));
 				var newPos = gameInstance.DNAs[i].bindingSites[j].localToScreen(new goog.math.Coordinate(0, 0));
-				// alert(newPos);
-				obj.layer.setPosition(obj.screenToLocal(newPos));
-				obj.layer.runAction(new lime.animation.MoveTo(obj.screenToLocal(newPos)));				
+				obj.layer.runAction(new lime.animation.MoveTo(obj.screenToLocal(newPos)));
+				
+				obj.locationOnDNA = gameInstance.DNAs[i].bindingSites[j].location;
+				obj.specie = gameInstance.DNAs[i].name;
+				
+				alert(gameInstance.DNAs[i].name)
+				
+				return			
 			}	
 		}
 	}
+	obj.layer.runAction(new lime.animation.MoveTo(obj.screenToLocal(initialScreenPosition)));
 };
 
 crowdy.Game.onTFMove = function(event, obj){
