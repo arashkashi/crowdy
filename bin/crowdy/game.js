@@ -8,6 +8,7 @@ goog.require('crowdy.DNA');
 var DNA_PADDING_TOP = 200
 var DNA_PADDING_LEFT = 50
 var GAP_BETWEEN_DNA = 200
+var GAP_BETWEEN_RESERVE_TF = 60
 
 var gameInstance = null
 
@@ -21,11 +22,13 @@ crowdy.Game = function(level) {
 	
     this.TFs = [];
 	this.DNAs = [];
+	this.score = 0;
+	this.displayedScore = 0;
 	
 	this.initGame();
 	
 	// Trash Logo
-	this.trashLogo = new lime.Sprite().setFill('assets/trash.png').setScale(0.2).setPosition(500,700).setAnchorPoint(0,0);
+	this.trashLogo = new lime.Sprite().setFill('assets/trash.png').setScale(0.2).setPosition(1000,700).setAnchorPoint(0,0);
 	this.appendChild(this.trashLogo)
 	
 	// Score Label
@@ -39,8 +42,40 @@ crowdy.Game = function(level) {
     this.appendChild(btn);
     goog.events.listen(btn, 'click', function() {crowdy.loadMenuScene(lime.transitions.MoveInUp);});
 
+	lime.scheduleManager.schedule(function(dt){
+		lime.Director.FPS_INTERVAL = 100;
+		gameInstance.updateScoreNumber(this);
+	},this.lblScore);
+
 };
 goog.inherits(crowdy.Game, lime.Scene);
+
+crowdy.Game.prototype.onAction = function(action, TF, dest_dna, dest_location) {
+	gameInstance.updateScore(action, TF, dest_dna, dest_location);
+};
+
+crowdy.Game.prototype.getScore = function(action, TF, dest_dna, dest_location) {
+	// TODO: update the score logic
+	return 50;
+};
+
+crowdy.Game.prototype.updateScoreNumber = function(label) {
+	if (gameInstance.displayedScore < gameInstance.score) {
+		gameInstance.displayedScore += 1
+	}
+	gameInstance.lblScore.setText('SCORE: ' + gameInstance.displayedScore.toString())
+};
+
+crowdy.Game.prototype.updateScore = function(action, TF, dest_dna, dest_location) {
+	gameInstance.score += gameInstance.getScore(action, TF, dest_dna, dest_location)
+	
+};
+
+crowdy.Game.ACTION_TYPE = {
+    REASSIGN : 0,  	// Reassign a preassigned TF to a new location.
+    DUMP : 1,		// Dump a preassigned TF into garbage.
+    ASSIGN : 2		// Assign a reserve TF to a new location
+}
 
 crowdy.Game.onTFRepositioned = function(event, obj, initialScreenPosition) {
 	for (var i=0; i<gameInstance.DNAs.length; i++) {
@@ -52,22 +87,22 @@ crowdy.Game.onTFRepositioned = function(event, obj, initialScreenPosition) {
 				obj.locationOnDNA = gameInstance.DNAs[i].bindingSites[j].location;
 				obj.specie = gameInstance.DNAs[i].name;
 				
-				alert(gameInstance.DNAs[i].name)
+				gameInstance.onAction(crowdy.Game.ACTION_TYPE.REASSIGN, obj, gameInstance.DNAs[i].name, gameInstance.DNAs[i].bindingSites[j].name)
 				
 				return			
 			}	
 		}
 	}
+	// Hit test: if TF is moved to the garbage
+	if (gameInstance.trashLogo.hitTest(event))
+	{
+		alert('TF is removed!!!');
+		return
+	}
 	obj.layer.runAction(new lime.animation.MoveTo(obj.screenToLocal(initialScreenPosition)));
 };
 
 crowdy.Game.onTFMove = function(event, obj){
-	// Hit test: if TF is moved to the garbage
-	if (gameInstance.trashLogo.hitTest(event))
-	{
-		alert('hit garbage');
-	}
-	
 	// Hit Test: if TF hasmoved and hit a binding site
     for (var i=0; i<gameInstance.DNAs.length; i++) {
 		for (var j=0; j<gameInstance.DNAs[i].bindingSites.length; j++) {
@@ -104,6 +139,13 @@ crowdy.Game.prototype.initGame = function() {
 	}
 	
 	this.arrangeTFs()
+	
+	for (var i=0; i < obj['TFsSet'].length; i++) {
+		var tf = new crowdy.TF(obj['TFs'][i]['name'], null, null);
+		tf.setPosition(500 + GAP_BETWEEN_RESERVE_TF * i, 750)
+		this.TFs.push(tf);
+		this.appendChild(tf);
+	}
 };
 
 crowdy.Game.prototype.arrangeDNAs = function() {	
