@@ -87,6 +87,8 @@ crowdy.Game.onTFRepositioned = function(event, obj, initialScreenPosition) {
 				obj.locationOnDNA = gameInstance.DNAs[i].bindingSites[j].location;
 				obj.specie = gameInstance.DNAs[i].name;
 				
+				gameInstance.DNAs[i].dehighlightBindingSites(j);
+				
 				gameInstance.onAction(crowdy.Game.ACTION_TYPE.REASSIGN, obj, gameInstance.DNAs[i].name, gameInstance.DNAs[i].bindingSites[j].name)
 				
 				return			

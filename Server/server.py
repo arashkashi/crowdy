@@ -18,11 +18,15 @@ class crowdy:
 
     def getAGame(self):
         # TODO: for now we are going to have a default game
-        return json.dumps(	{	'TFs':[{'name':'TF1', 'specie':'human', 'location':5},  	\
-        										{'name':'TF2', 'specie':'mice', 'location':7},		\
-        										{'name':'TF4', 'specie':'human', 'location':19}, 	\
-        										{'name':'TF2', 'specie':'mice', 'location':6},		\
-        												{'name':'TF3', 'specie':'vampire', 'location':6}		\
+        return json.dumps(	{	'TFs':[			{'name':'TF1', 'specie':'human', 'location':5},  	\
+												{'name':'TF4', 'specie':'human', 'location':19}, 	\
+												{'name':'TF3', 'specie':'human', 'location':6},	\
+        										{'name':'TF1', 'specie':'mice', 'location':5},		\
+        										{'name':'TF4', 'specie':'mice', 'location':18},		\
+												{'name':'TF3', 'specie':'mice', 'location':6},	\
+        										{'name':'TF3', 'specie':'vampire', 'location':6},	\
+												{'name':'TF3', 'specie':'vampire', 'location':8},	\
+												{'name':'TF2', 'specie':'vampire', 'location':15},	\
         										],													\
         								'species':['human', 'mice', 'vampire'],	\
         								'TFsSet':['TF1', 'TF2', 'TF3', 'TF4']
