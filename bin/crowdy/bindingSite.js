@@ -17,7 +17,7 @@ crowdy.BindingSite = function(_specie, _location){
 	
 	this.circle = new lime.Sprite().setSize(this.WIDTH, this.HEIGHT)
 	this.circle.setFill('#c60').setPosition(0, 0)
-	var fade = new lime.animation.FadeTo(.2)
+	var fade = new lime.animation.FadeTo(.2).setDuration(5)
 	this.circle.runAction(fade)
 	
 	this.layer = new lime.Layer();
