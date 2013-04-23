@@ -18,19 +18,25 @@ crowdy.TF = function(_TF_name, _locationOnDNA, _specieName){
 	this.layer.appendChild(this.circle);
 	this.appendChild(this.layer);
 	
+	this.prevPosition = null
+	
 	goog.events.listen(this.layer,['mousedown','touchstart'],function(e){
 		var instance = this
+		var event = e
+		var initialScreenPosition = e.screenPosition
+		
+		this.prevPosition = e.screenPosition;
 		
 		e.startDrag();
 		
-		e.swallow('mousemove', function(ee) {
-			crowdy.Game.onTFMove(ee, instance);	
+		e.swallow('mousemove', function(e) {
+			crowdy.Game.onTFMove(e, instance);	
 		});
 		
-		e.swallow('mouseup', function(eee) {
-			crowdy.Game.onTFRepositioned(eee, instance);
+		e.swallow('mouseup', function(e) {
+			crowdy.Game.onTFRepositioned(e, instance, initialScreenPosition);
 		});
-	}, true, this);
+	}, false, this);
 };
 goog.inherits(crowdy.TF, lime.Sprite);
 

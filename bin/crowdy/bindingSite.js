@@ -22,7 +22,7 @@ crowdy.BindingSite = function(_specie, _location){
 	this.layer.appendChild(this.circle)
 	this.appendChild(this.layer)
 	
-	goog.events.listen(this.circle,['mouseover'],function(e){
+	goog.events.listen(this.circle,['mousedown'],function(e){
 	}, true, this);
 	
 };
@@ -30,8 +30,8 @@ goog.inherits(crowdy.BindingSite, lime.Sprite);
 
 crowdy.BindingSite.prototype.setHighlight = function() {
 	this.circle.runAction(new lime.animation.Spawn(
-							                new lime.animation.FadeTo(0.5).setDuration(.2),
-							                new lime.animation.ScaleTo(5).setDuration(.5)
+							                new lime.animation.FadeTo(0.2).setDuration(.2),
+							                new lime.animation.ScaleTo(1.5).setDuration(.5)
 							            ));
 };
 

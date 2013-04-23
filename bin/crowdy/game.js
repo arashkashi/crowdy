@@ -5,9 +5,9 @@ goog.require('crowdy.TF');
 goog.require('crowdy.DNA');
 
 
-var DNA_PADDING_TOP = 300
+var DNA_PADDING_TOP = 200
 var DNA_PADDING_LEFT = 50
-var GAP_BETWEEN_DNA = 100
+var GAP_BETWEEN_DNA = 200
 
 var gameInstance = null
 
@@ -23,12 +23,6 @@ crowdy.Game = function(level) {
 	this.DNAs = [];
 	
 	this.initGame();
-	
-	lime.scheduleManager.schedule(function(dt){
-		lime.Director.FPS_INTERVAL = 500
-		crowdy.Game.run(this);
-	
-	}, this);
 	
 	// Trash Logo
 	this.trashLogo = new lime.Sprite().setFill('assets/trash.png').setScale(0.2).setPosition(500,700).setAnchorPoint(0,0);
@@ -48,36 +42,20 @@ crowdy.Game = function(level) {
 };
 goog.inherits(crowdy.Game, lime.Scene);
 
-crowdy.Game.run = function(obj) {	
-
-	// for (var j=0; j < obj.TFs.length; j++)  {
-	// 	alert(obj.TFs[j].getPosition)
-	// }
-
-};
-
-crowdy.Game.onTFRepositioned = function(event, obj) {
+crowdy.Game.onTFRepositioned = function(event, obj, initialScreenPosition) {
 	for (var i=0; i<gameInstance.DNAs.length; i++) {
 		for (var j=0; j<gameInstance.DNAs[i].bindingSites.length; j++) {
 			if (gameInstance.DNAs[i].bindingSites[j].circle.hitTest(event)) {
-				
-				// obj.setPosition(new goog.math.Coordinate(50,50))
-				obj.runAction(new lime.animation.MoveTo(gameInstance.DNAs[i].bindingSites[j].getPosition()));
-				alert(obj.getPosition())
-				// obj.setPosition(50,50);
-				// for (var k=0; k < gameInstance.TFs.length; k++) {
-				// 	if (gameInstance.TFs[k].name == obj.name) {
-				// 		if (gameInstance.TFs[k].locationOnDNA == obj.locationOnDNA) {
-				// 			if (gameInstance.TFs[k].specie == obj.specie) {
-				// 				gameInstance.TFs[k].setPosition(50, 50);
-				// 				alert(k)
-				// 				break;
-				// 			}
-				// 		}
-				// 	}	
-				// }
-				// alert( obj.getPosition() );			
-				
+				// obj.locationOnDNA = 2;
+				// 				gameInstance.arrangeDNAs();
+				// 				gameInstance.arrangeTFs();
+				// var temp = new lime.Circle().setSize(25, 25).setFill('#c00').setPosition(gameInstance.DNAs[i].bindingSites[j].getPosition());
+				// gameInstance.appendChild(temp);
+				// obj.runAction(new lime.animation.MoveTo(gameInstance.DNAs[i].getParent().localToScreen(gameInstance.DNAs[i].bindingSites[j].getPosition())));
+				var newPos = gameInstance.DNAs[i].bindingSites[j].localToScreen(new goog.math.Coordinate(0, 0));
+				// alert(newPos);
+				obj.layer.setPosition(obj.screenToLocal(newPos));
+				obj.layer.runAction(new lime.animation.MoveTo(obj.screenToLocal(newPos)));				
 			}	
 		}
 	}
@@ -125,12 +103,6 @@ crowdy.Game.prototype.initGame = function() {
 		this.appendChild(tf)
 	}
 	
-	for (var i=0; i < this.TFs.length; i++) {
-		goog.events.listen(this.TFs[i],['mousedown','touchstart'],function(e){
-			alert('s');
-		});
-	}
-	
 	this.arrangeTFs()
 };
 
@@ -159,9 +131,6 @@ crowdy.Game.prototype.arrangeTFs = function() {
 		}
 		this.TFs[i].setPosition(tf_x_position, tf_y_position)
 	}	
-};
-
-crowdy.Game.prototype.onTFPositionUpdate = function(event, obj) {
 };
 
 crowdy.Game.prototype.getGameInJson = function() {
