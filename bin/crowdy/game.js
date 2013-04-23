@@ -97,6 +97,7 @@ crowdy.Game.onTFRepositioned = function(event, obj, initialScreenPosition) {
 	if (gameInstance.trashLogo.hitTest(event))
 	{
 		alert('TF is removed!!!');
+		gameInstance.onAction(crowdy.Game.ACTION_TYPE.REASSIGN, obj, null, null)
 		return
 	}
 	obj.layer.runAction(new lime.animation.MoveTo(obj.screenToLocal(initialScreenPosition)));

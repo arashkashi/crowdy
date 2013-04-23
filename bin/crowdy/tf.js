@@ -44,10 +44,17 @@ crowdy.TF.getTFColor = function(name) {
 	if (name == 'TF1') {
 		return '#c00'
 	}
-	else
-	{
+	else if (name == 'TF2') {
 		return '#f66'
 	}
+	else if (name == 'TF3') {
+		return '#a33'
+	}
+	else if (name == 'TF4') {
+		return '#bab'
+	}
+	else
+	    return '#a50'
 };
 
 crowdy.TF.prototype.onDragMouseup = function(event, obj) {
